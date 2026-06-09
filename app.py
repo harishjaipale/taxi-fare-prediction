@@ -7,6 +7,12 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
+
+@app.get("/")
+def home():
+    return jsonify({"status": "ok", "message": "Taxi Fare API is running."})
+
+
 model_path = os.path.join(os.path.dirname(__file__), "model.pkl")
 if not os.path.exists(model_path):
     raise FileNotFoundError(f"Model file not found: {model_path}")
