@@ -318,7 +318,17 @@ def engineer_features(df):
         "bearing",
     ]
     reordered_columns = [col for col in expected_columns if col in df.columns] + [col for col in df.columns if col not in expected_columns]
-    return df[reordered_columns]
+    df = df[reordered_columns]
+
+    if hasattr(model, "feature_names_in_"):
+        feature_names = list(model.feature_names_in_)
+    else:
+        feature_names = reordered_columns
+    missing_features = [col for col in feature_names if col not in df.columns]
+    if missing_features:
+        raise ValueError("Missing required feature(s): " + ", ".join(missing_features))
+
+    return df.reindex(columns=feature_names)
 
 
 @app.route("/predict", methods=["POST"])
