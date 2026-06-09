@@ -38,3 +38,11 @@ A machine learning-powered REST API that predicts taxi fares based on pickup/dro
    ```bash
    git lfs pull
    ```
+
+## 🧪 Next Steps
+
+### 1. Simple Frontend (HTML/JS)
+A lightweight web page can be added on top of the API so you can test predictions directly in the browser with input fields and a Predict Fare button.
+
+### 2. API Authentication
+For public deployment, you can protect `/predict` with a simple API key check in the Flask app, for example by validating `X-API-Key` in the request headers.
