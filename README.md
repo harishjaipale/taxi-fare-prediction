@@ -1,48 +1,85 @@
 # Taxi Fare Prediction API
 
-A machine learning-powered REST API that predicts taxi fares based on pickup/dropoff coordinates, date/time, and passenger count. Built with **Flask**, **scikit-learn**, and **Haversine distance calculations**.
+A Flask-based taxi fare prediction service with a polished browser UI, protected prediction endpoint, and deployment-ready setup for Render.
 
-## 🚀 Features
+## ✨ What this project includes
 
-- **Real-time Prediction**: Estimates fare amounts instantly via a POST request.
-- **Feature Engineering**: Automatically extracts time-based (hour, weekday) and spatial features (distance, bearing) from raw coordinates.
-- **Robust Model**: Uses a Tuned Random Forest regressor trained on the NYC Taxi dataset.
-- **Scalable**: Ready for deployment with production-grade dependencies (Gunicorn).
+- A live REST API with `/` and `/predict`
+- Feature engineering that mirrors the trained model input schema
+- A simple browser front end for testing predictions
+- API-key protection on `/predict`
+- Render deployment configuration via `render.yaml`
+
+## 🚀 Tech stack
+
+- Flask
+- pandas / NumPy
+- scikit-learn
+- joblib
+- Gunicorn
 
 ## 📋 Prerequisites
 
-- Python 3.8+
-- Git (for cloning the repository)
-- (Optional) Git LFS (if you need to regenerate the model locally)
+- Python 3.10+
+- Git
+- (Optional) Git LFS for the model file
 
-## ⚙️ Installation
+## ⚙️ Local setup
 
-1. **Clone the repository**:
+1. Clone the repository
    ```bash
    git clone https://github.com/harishjaipale/taxi-fare-prediction.git
    cd taxi-fare-prediction
    ```
 
-2. **Create a virtual environment** (recommended):
+2. Create and activate a virtual environment
    ```bash
    python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   venv\Scripts\activate
    ```
 
-3. **Install dependencies**:
+3. Install dependencies
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Verify Model**: Ensure `model.pkl` exists in the root directory. If you see a pointer file instead of the binary, run:
+4. Run the app locally
    ```bash
-   git lfs pull
+   python app.py
    ```
 
-## 🧪 Next Steps
+5. Test the API
+   - Open http://localhost:5000/
+   - Send a POST request to http://localhost:5000/predict
+   - Use the header `X-API-Key: my-secret-key` by default
 
-### 1. Simple Frontend (HTML/JS)
-A lightweight web page can be added on top of the API so you can test predictions directly in the browser with input fields and a Predict Fare button.
+## 🧪 API example
 
-### 2. API Authentication
-For public deployment, you can protect `/predict` with a simple API key check in the Flask app, for example by validating `X-API-Key` in the request headers.
+```bash
+curl -X POST http://localhost:5000/predict \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: my-secret-key" \
+  -d '{
+    "pickup_datetime": "2024-01-15 08:30:00",
+    "pickup_latitude": 40.721,
+    "pickup_longitude": -73.987,
+    "dropoff_latitude": 40.751,
+    "dropoff_longitude": -73.97,
+    "passenger_count": 1
+  }'
+```
+
+## 🌐 Deployment
+
+This project is configured for Render with `render.yaml`.
+
+Recommended Render settings:
+- Build Command: `pip install -r requirements.txt`
+- Start Command: `gunicorn app:app`
+- Root Directory: `.`
+
+## 🔐 Notes
+
+- The model file `model.pkl` is expected in the project root.
+- If the model is not present locally, run `git lfs pull` to restore the binary file from Git LFS.
+- If you want to change the API key, set the `API_KEY` environment variable in your hosting platform.
