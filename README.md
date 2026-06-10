@@ -1,6 +1,12 @@
-# Taxi Fare Prediction API
+   # Taxi Fare Prediction API
 
 A Flask-based taxi fare prediction service with a polished browser UI, protected prediction endpoint, and deployment-ready setup for Render.
+
+## 🌐 Live demo
+
+Try the deployed app here:
+
+https://taxi-fare-prediction-7.onrender.com/
 
 ## ✨ What this project includes
 
@@ -72,6 +78,8 @@ curl -X POST http://localhost:5000/predict \
 ## 🌐 Deployment
 
 This project is configured for Render with `render.yaml`.
+
+Live deployment: https://taxi-fare-prediction-7.onrender.com/
 
 Recommended Render settings:
 - Build Command: `pip install -r requirements.txt`
